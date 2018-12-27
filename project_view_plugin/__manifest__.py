@@ -20,7 +20,7 @@
     # always loaded
     'data': [
         'views/kanban_view.xml',
-        #'views/form_view.xml',
+        'views/form_view.xml',
     ],
     'installable': True,
     'auto_install': False,
