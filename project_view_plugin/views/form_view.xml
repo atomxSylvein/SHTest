@@ -1,0 +1,18 @@
+<odoo>
+	<data>
+		<!-- FORM VIEW -->
+	    <record id="view_project_form_inherited" model="ir.ui.view">
+	      <field name="name">Project Form Extension</field>
+	      <field name="model">project.project</field>
+	      <field name="inherit_id" ref="project.edit_project"/>
+	      <field name="arch" type="xml">
+	        
+	        <!-- match and extend kanban element here -->
+	        <header position="inside">
+	          <field name="m_stage" options="{'clickable': '0'}" widget="statusbar" default_value="building"/>
+	        </header>
+
+      		</field>
+    	</record>
+	</data>
+</odoo>

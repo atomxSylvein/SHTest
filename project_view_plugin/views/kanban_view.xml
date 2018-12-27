@@ -1,0 +1,17 @@
+<odoo>
+  <data>
+    <!-- KANBAN VIEW -->
+    <record id="view_project_kanban_inherited" model="ir.ui.view">
+      <field name="name">Project Kanban Extension</field>
+      <field name="model">project.project</field>
+      <field name="inherit_id" ref="project.view_project_kanban"/>
+      <field name="arch" type="xml">
+        
+        <!-- match and extend kanban element here -->
+        <kanban position="attributes">
+          <attribute name="default_group_by">m_stage</attribute>
+        </kanban>        
+      </field>
+    </record>
+  </data>
+</odoo>
