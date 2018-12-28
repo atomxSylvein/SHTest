@@ -50,5 +50,24 @@
 
 	      </field>
 	    </record>
+
+	    <!-- QUICK FORM VIEW -->
+	    <record id="view_project_kanban_inherited" model="ir.ui.view">
+	      <field name="name">Project Quick Form Extension</field>
+	      <field name="model">project.project</field>
+	      <field name="inherit_id" ref="project.project_project_view_form_simplified"/>
+	      <field name="arch" type="xml">
+
+	      	<field name="user_id" position="before">
+	      		<field name="partner_id"/>
+	      		<field name="m_typologie"/>
+	      	</field>
+
+	      	<div name="alias_def" position="before">
+	      		<field name="m_description"/>
+	      	</div>
+
+	      </field>
+	  </record>
 	</data>
 </odoo>
