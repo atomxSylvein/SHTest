@@ -40,7 +40,7 @@
 	        	<field name="m_typologie"/>
 	        </field>
 
-	        <div t-attf-class="#{kanban_color(record.color.raw_value)} oe_kanban_global_click o_has_icon" position="attribute">
+	        <div t-attf-class="#{kanban_color(record.color.raw_value)} oe_kanban_global_click o_has_icon" position="attributes">
 	        	<attribute name="t-attf-class">#{kanban_color(record.m_typologie.raw_value)} oe_kanban_global_click o_has_icon</attribute>
 	        </div>
 
