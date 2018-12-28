@@ -52,7 +52,7 @@
 	    </record>
 
 	    <!-- QUICK FORM VIEW -->
-	    <record id="view_project_kanban_inherited" model="ir.ui.view">
+	    <record id="view_project_quick_form_inherited" model="ir.ui.view">
 	      <field name="name">Project Quick Form Extension</field>
 	      <field name="model">project.project</field>
 	      <field name="inherit_id" ref="project.project_project_view_form_simplified"/>
