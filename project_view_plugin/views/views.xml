@@ -1,0 +1,54 @@
+<odoo>
+	<data>
+		<!-- FORM VIEW -->
+	    <record id="view_project_form_inherited" model="ir.ui.view">
+	      <field name="name">Project Form Extension</field>
+	      <field name="model">project.project</field>
+	      <field name="inherit_id" ref="project.edit_project"/>
+	      <field name="arch" type="xml">
+	        
+	        <!-- match and extend kanban element here -->
+	        <header position="inside">
+	          <field name="m_stage" options="{'clickable': '0'}" widget="statusbar" default_value="building"/>
+	        </header>
+
+	        <field name="partner_id" position="before">
+	        	<field name="m_typologie"/>
+	        </field>
+
+	        <field name="subtask_project_id" position="after">
+	        	<field name="m_description"/>
+	        </field>
+
+      		</field>
+    	</record>
+
+    	<!-- KANBAN VIEW -->
+	    <record id="view_project_kanban_inherited" model="ir.ui.view">
+	      <field name="name">Project Kanban Extension</field>
+	      <field name="model">project.project</field>
+	      <field name="inherit_id" ref="project.view_project_kanban"/>
+	      <field name="arch" type="xml">
+	        
+	        <!-- match and extend kanban element here -->
+	        <kanban position="attributes">
+	          <attribute name="default_group_by">m_stage</attribute>
+	        </kanban>   
+
+	        <field name="name" position="after">
+	        	<field name="partner_id"/>
+	        	<field name="m_typologie"/>
+	        </field>
+
+	        <div t-attf-class="#{kanban_color(record.color.raw_value)} oe_kanban_global_click o_has_icon" position="attribute">
+	        	<attribute name="t-attf-class">#{kanban_color(record.m_typologie.raw_value)} oe_kanban_global_click o_has_icon</attribute>
+	        </div>
+
+	        <span t-if="record.partner_id.value" position="after">
+	        	<br/><t t-esc="record.m_typologie.value"/>
+	        </span>
+
+	      </field>
+	    </record>
+	</data>
+</odoo>

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "Project View Plugin",
+    'name': "Project Plugin",
 
     'summary': """Add stages to projects""",
 
@@ -19,8 +19,9 @@
 
     # always loaded
     'data': [
-        'views/kanban_view.xml',
-        'views/form_view.xml',
+        #'views/kanban_view.xml',
+        #'views/form_view.xml',
+        'views/views.xml',
     ],
     'installable': True,
     'auto_install': False,
