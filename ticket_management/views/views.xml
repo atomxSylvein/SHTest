@@ -16,7 +16,7 @@
           <field name="m_title"/>
           <field name="m_type"/>
           <field name="m_contact"/>
-          <field name="m_stage_id"/>
+          <field name="m_status"/>
         </tree>
       </field>
     </record>
@@ -32,7 +32,8 @@
             <!--The oe_highlight class gives the button a red color when it is saved.
             It is usually used to indicate the expected behaviour. -->
             <button string="Marquer résolu" type="object" name="resolved_ticket" class="oe_highlight"/>
-            <field name="m_stage_selection" options="{'clickable': '1'}" widget="statusbar" default_value="new"/>
+            <button string="Marquer en attente" type="object" name="ticket_waiting" attrs="{'invisible': [('m_status','!=', 'inProgress')]}"/>
+            <field name="m_status" options="{'clickable': '0'}" widget="statusbar" default_value="new"/>
           </header>
 
             <sheet>
@@ -41,9 +42,6 @@
                   <h1><field name="m_title" required="1" placeholder="Ticket title" style="max-width: 350px; margin:20px;"/></h1> <br/>
                   <field name="m_type" required="1" widget="radio" options="{'horizontal': true}"/><br/> <br/>
                   <table>
-                    <tr>
-                      <td>Ticket status</td> <td> : <field name="m_stage_id" required="1" widget="ticket_management_stage_many2one"/></td>
-                    </tr>
                     <tr>
                       <td>Settings applied</td> <td> : <field name="m_settings" widget="ticket_management_settings_many2one" required="1"/></td>
                     </tr>
@@ -106,8 +104,8 @@
         <field name="name">ticket_management.ticket_management.kanban</field>
         <field name="model">ticket_management.ticket_management</field>
         <field name="arch" type="xml">
-            <kanban default_group_by="m_stage_id" class="o_kanban_small_column o_opportunity_kanban" on_create="quick_create" quick_create_view="ticket_management.quick_create_opportunity_form">
-                <field name="m_stage_id"/>
+            <kanban string="Tickets" default_group_by="m_status" on_create="quick_create" quick_create_view="ticket_management.quick_create_opportunity_form" edit="false">
+                <field name="m_status"/>
                 <field name="m_title"/>
                 <field name="m_type"/>
                 <field name="m_contact"/>

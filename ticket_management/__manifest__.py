@@ -12,10 +12,10 @@
     'data': [
         'security/ir.model.access.csv',
 
-        'data/ticket_management_stage_data.xml',
+        #'data/ticket_management_stage_data.xml',
         
         'views/views.xml',
-        'views/stage_views.xml',
+        #'views/stage_views.xml',
         'views/settings_views.xml',
     ],
     'demo': [],

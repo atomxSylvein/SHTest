@@ -3,7 +3,7 @@ from odoo import models, fields, api, tools, SUPERUSER_ID
 from odoo import http
 from odoo.http import request
 
-from . import stage
+#from . import stage
 
 class TicketManagement(models.Model):
 
@@ -26,9 +26,12 @@ class TicketManagement(models.Model):
 	_inherit = ['mail.thread']
 
 
-	m_resolved = fields.Boolean(string='Resolved', default=False, required=True)
-	m_stage_id = fields.Many2one('ticket_management.stage', string='Ticket Status', ondelete='restrict', track_visibility='onchange', index=True, group_expand='_read_group_stage_ids', default= lambda self: self.env['ticket_management.stage'].search([], order='m_sequence', limit=1).id)
-	m_stage_selection = fields.Selection([("new","New"), ("inprogress","In progress"), ("resolved","Resolved")], string="Papeline status bar")
+	m_resolved = fields.Boolean(string='Le ticket est résolu', default=False, required=True)
+	m_waiting = fields.Boolean(string='Le ticket est en attente', default=False)
+
+	#m_stage_id = fields.Many2one('ticket_management.stage', string='Ticket Status', ondelete='restrict', track_visibility='onchange', index=True, group_expand='_read_group_stage_ids', default= lambda self: self.env['ticket_management.stage'].search([], order='m_sequence', limit=1).id)
+	m_status = fields.Selection([("new","Nouveau"), ("inProgress","En progression"), ("resolved","Résolu")], string="Ticket status", default='new', track_visibility='onchange', group_expand='_read_stage_ids')
+	
 	m_title = fields.Char(string='Title', required=True)
 	m_type = fields.Selection([('question','Question'), ('incident', 'Incident'), ('helpRequest', 'Demande d\'aide')], string='Type of ticket')
 	m_ticketDescription = fields.Text(string='Description', required=True, help="Ticket's description")
@@ -42,16 +45,15 @@ class TicketManagement(models.Model):
 
 	@api.one
 	def resolved_ticket(self):
-		"""Is called to resolve a ticket
+		"""Is called to resolve a ticket, mark the current ticket as resolved in the database and change its stage
 		"""
+		self.write({'m_resolved':True, 'm_status':"resolved"})
 
-		#get the 1st stage which considers a ticket as resolved
-		stage_env = self.env['ticket_management.stage']
-		stage = stage_env.search([('m_asResolved', '=','True')], order='m_sequence', limit=1)
-
-		#mark the current ticket as resolved in the database and change its stage
-		self.write({'m_resolved':True, 'm_stage_id':stage.id})
-
+	@api.one
+	def ticket_waiting(self):
+		"""Is called to resolve a ticket, mark the current ticket as resolved in the database and change its stage
+		"""
+		self.write({'m_waiting':True})
 
 	@api.model
 	def create(self, values):
@@ -79,9 +81,8 @@ class TicketManagement(models.Model):
 		
 		return record
 
-
 	@api.model
-	def _read_group_stage_ids(self, stages, domain, order):
+	def _read_stage_ids(self, stages, domain, order):
 		"""This function allows the kanban view to get all the known ticket status (even if the status doesn't contain any ticket)
 		
 		Args:
@@ -90,7 +91,6 @@ class TicketManagement(models.Model):
 		    order (TYPE): Not used
 		
 		Returns:
-		    Array[ticket_management.stage]: Description
+		    Array[str]: All status
 		"""
-		stage_ids = stages._search([], order='m_sequence', access_rights_uid=SUPERUSER_ID)
-		return stages.browse(stage_ids)
+		return (["new", "inProgress", "resolved"])
