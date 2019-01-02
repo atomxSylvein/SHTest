@@ -8,7 +8,7 @@
     'company': "AtomX System",
     'website': "http://atomxsystem.eu",
     'category': 'Tools',
-    'depends': ['base', 'contacts', 'base_kanban_stage'],
+    'depends': ['base', 'contacts'],
     'data': [
         'security/ir.model.access.csv',
 
