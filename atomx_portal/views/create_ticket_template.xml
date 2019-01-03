@@ -1,0 +1,50 @@
+<odoo>
+	<template id="create_ticket">
+		<t t-call="website.layout">
+			<link href="../static/src/css/atomx_portal.css" rel="stylesheet" type="text/css"/>
+
+			<div class="center">
+
+				<h2 style="color:#293d52;margin-bottom:20px;margin-top:50px;">
+					<div class="center">Comment pouvons-nous vous aider ?</div>
+				</h2>
+				<br/>
+				<div style="margin:20px;margin-left:0px;">
+					Contactez-nous concernant tout ce qui est lié à votre solution Odoo.
+				</div>
+
+				<form action="/created" method="post" enctype="multipart/form-data">
+
+					<input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+
+					<div class="form-group form-field o_website_form_required_custom">
+						<input 
+							type="text" 
+							id="m_title" 
+							class="form-control o_website_form_input"
+							required="True" 
+							title="Title" 
+							name="m_title" 
+							placeholder="Titre de votre question..."/>
+					</div>
+
+					<div class="form-group form-field o_website_form_required_custom">
+						<textarea
+							type="text"
+							name="m_ticketDescription" 
+							rows = "7" 
+							cols = "50" 
+							maxlength="2000"
+							class="form-control o_website_form_input"
+							required="True"
+							placeholder="Description de votre problème (max. 2000 caractères)"></textarea> 
+					</div>
+					<div class="form-group">
+						<button class="btn btn-block btn-primary o_website_form_send" style="max-width: 15%;">Envoyer</button>
+					</div>
+				</form>
+
+			</div>
+		</t>
+	</template>
+</odoo>

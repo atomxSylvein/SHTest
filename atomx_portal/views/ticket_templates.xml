@@ -1,0 +1,22 @@
+<odoo>
+	<template id="tickets">
+		<t t-call="website.layout">
+			<link href="../static/src/css/atomx_portal.css" rel="stylesheet" type="text/css"/>
+
+			<div t-if="not tickets" class="center"><h2><br/>Bonne nouvelle, vous n'avez aucun incident d'ouvert</h2></div>
+
+			<div class="shadow" t-foreach="tickets" t-as="ticket">
+
+					<h2 t-field="ticket.m_title" class="col-md-12" />
+					<h5 t-field="ticket.m_ticketDescription" />
+					
+					<!-- add a form in order to put a button for each ticket -->
+					<form action="/ticket_view" method="post">
+						<input name="id" type="hidden" t-att-value="ticket.id"/> 
+						<button type="submit" class="btn btn-primary">Voir</button>
+					</form>
+			</div>
+			
+		</t>
+	</template>
+</odoo>

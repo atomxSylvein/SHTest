@@ -1,0 +1,43 @@
+<odoo>
+    <!-- Redefine header -->
+    <template id="custom_menu" inherit_id="website.layout" name="Custom Menu">
+
+        <!-- Assign an id  -->
+        <xpath expr="//nav[@id='navbarheader']/div/div" position="attributes">
+            <attribute name="id">custom_menu</attribute>
+        </xpath>
+
+        <!-- Replace top menu  --> 
+        <xpath expr="//nav[@id='navbarheader']/div/div" position="replace">
+            <ul class="nav navbar-nav ml-auto text-right" id="top_menu">
+    
+                <li class="nav-item">
+                    <a role="menuitem" href="/" class="nav-link" style="color:#FFFFFF;">
+                        <span data-oe-model="website.menu" data-oe-id="19" data-oe-field="name" data-oe-type="char" data-oe-expression="submenu.name">Accueil</span>
+                    </a>
+                </li>
+                
+                <li class="nav-item divider"/>
+
+                <!-- if user is known -->
+                <li class="nav-item dropdown" t-if="user_id.active">
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" style="color:#FFFFFF;">
+                        <b>
+                            <span t-esc="user_id.name[:23] + '...' if user_id.name and len(user_id.name) &gt; 25 else user_id.name"/>
+                        </b>
+                    </a>
+                    <div class="dropdown-menu js_usermenu" role="menu">
+                        <a id="o_logout" class="dropdown-item" t-attf-href="/web/session/logout?redirect=/" role="menuitem">Déconnexion</a>
+                    </div>
+                </li>  
+
+                <!-- else --> 
+                <li class="nav-item dropdown" t-if="not user_id.active">
+                    <a href="/web/login" class="nav-link" style="color:#FFFFFF;">
+                        <strong>Se connecter</strong>
+                    </a>
+                </li>   
+            </ul>
+        </xpath>
+    </template>
+</odoo>

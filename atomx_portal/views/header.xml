@@ -1,0 +1,29 @@
+<odoo>
+    <!-- Redefine header -->
+    <template id="custom_header" inherit_id="website.layout" name="Custom Header">
+
+        <!-- Assign an id  -->
+        <xpath expr="//div[@id='wrapwrap']/header" position="attributes">
+            <attribute name="id">custom_header</attribute>
+        </xpath>
+
+		<!-- Replace header --> 
+        <xpath expr="//div[@id='wrapwrap']/header" position="replace">
+        	<div style="background-color: rgb(0, 0, 0);color:#FFFFFF;">
+			    <nav class="navbar navbar-expand-md" id="navbarheader" style="color:#FFFFFF;">
+			        <div class="container">
+			            <a href="/" class="navbar-brand logo">
+			                <img src="http://atomxsystem.eu/wp-content/uploads/2018/06/logo-AtomX-blanc.png" style="width: auto;height: 2.3125rem;max-width:none;"/>
+			            </a>
+			            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#top_menu_collapse">
+			                <span class="navbar-toggler-icon"/>
+			            </button>
+			            <div class="collapse navbar-collapse" id="top_menu_collapse">
+			                <!-- replaced by menu.xml -->
+			            </div>
+			        </div>
+			    </nav>
+			</div>
+		</xpath>
+    </template>
+</odoo>

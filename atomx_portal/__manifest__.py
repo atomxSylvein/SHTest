@@ -1,0 +1,25 @@
+# -*- coding: utf-8 -*-
+{
+    'name': "AtomX Portal",
+    'summary': """This module is a custom website module""",
+    'version': '0.1',
+    'description': """This module is a custom website module. This allows customs forms""",
+    'author': "Sylvein Faraux",
+    'company': "AtomX System",
+    'website': "http://atomxsystem.eu",
+    'category': 'Tools',
+    'depends': ['base', 'ticket_management', 'website', 'website_form', 'contacts'],
+    'data': [
+        'security/ir.model.access.csv',
+        'views/ticket_templates.xml',
+        'views/create_ticket_template.xml',
+        'views/templates.xml',
+        'views/header.xml',
+        'views/menu.xml',
+        'views/home.xml',
+    ],
+    'demo': [],
+    'installable': True,
+    'application': True,
+    'auto_install': False,
+}
