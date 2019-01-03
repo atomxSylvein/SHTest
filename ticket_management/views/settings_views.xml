@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!--link href="/ticket_management/static/src/css/ticket_management.css" rel="stylesheet" type="text/css"/-->
+
+    <!-- 1. Views -->
+
+    <!--TREE VIEW -->
+    <record id="ticket_management_settings_tree" model="ir.ui.view">
+    <field name="name">ticket_management.settings.tree</field>
+    <field name="model">ticket_management.settings</field>
+    <field name="arch" type="xml">
+      <tree string="Settings">
+        <field name="m_sequence" widget="handle"/>
+        <field name="m_name"/>
+      </tree>
+    </field>
+  </record>
+
+    <!-- FORM VIEW -->
+    <record id="ticket_management_settings_form" model="ir.ui.view">
+      <field name="name">ticket_management.settings.form</field>
+      <field name="model">ticket_management.settings</field>
+      <field name="priority" eval="8" />
+      <field name="arch" type="xml">
+        <form string="Set settings"> 
+          <sheet>
+            <div style="float:left;"> 
+              <div class="oe_title">
+                <h1><field name="m_name" required="1" placeholder="Settings title" style="max-width: 200px; margin:20px;"/></h1> <br/>
+                <fields name="m_sequence" attrs="{'invisible':1}"/>
+              </div>
+
+              <group> 
+                <div string="Mail Information"> 
+                  <br/> <br/> <h5>Mail Information</h5> <br/>
+                  Template of the mail to send to the <strong>caller</strong> : <field 
+                    name="m_caller_mail" 
+                    widget="mail_template_many2one" 
+                    domain="[('model_id.model','=', 'ticket_management.ticket_management')]" 
+                    required="1"/> <br/> <br/>
+                  Template of the mail to send to the <strong>internal users</strong> : <field 
+                    name="m_group_user_mail" 
+                    widget="mail_template_many2one" 
+                    domain="[('model_id.model','=', 'ticket_management.ticket_management')]" 
+                    required="1"/>
+                </div>
+              </group>
+            </div>
+          
+            <div style="float:right; border-left: solid 1px; border-color:darkgray; padding-left:10px;">
+              <group>
+                <h5>Group information</h5> <br/> <br/>
+                <field name="m_group_id" widget="res_groups_many2one" required="1"/>
+              </group>
+            </div>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <!-- 2. Actions -->
+    <record model="ir.actions.act_window" id="ticket_management_settings_action">
+    <field name="name">Settings</field>
+    <field name="res_model">ticket_management.settings</field>
+    <field name="view_type">form</field>
+    <field name="view_mode">tree,form</field>
+    <field name="view_id" ref="ticket_management.ticket_management_settings_tree"/>
+    <field name="help" type="html">
+      <p class="o_view_nocontent_smiling_face">Set new settings for your tickets</p>
+      <p>Settings allow you to easily send and receive mails related to tickets.</p>
+    </field>
+  </record>
+
+
+    <!-- 3. Menu items -->
+  <menuitem 
+    id="menu_ticket_management_settings_act" 
+    name="Settings" 
+    sequence="30"
+    action="ticket_management_settings_action"
+    parent="ticket_management_menu_root"/>
+</odoo>

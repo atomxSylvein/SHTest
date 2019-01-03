@@ -1,0 +1,66 @@
+<odoo>
+
+  <!-- link href="/ticket_management/static/src/css/ticket_management.css" rel="stylesheet" type="text/css"/-->
+
+  <!-- 1. Views -->
+
+  <record id="ticket_management_stage_search" model="ir.ui.view">
+      <field name="name">Stage - Search</field>
+      <field name="model">ticket_management.stage</field>
+      <field name="arch" type="xml">
+          <search string="Stage Search">
+              <field name="m_stageName"/>
+              <field name="m_sequence"/>
+              <field name="m_asResolved"/>
+          </search>
+      </field>
+  </record>
+
+  <record id="ticket_management_stage_tree" model="ir.ui.view">
+    <field name="name">ticket_management.stage.tree</field>
+    <field name="model">ticket_management.stage</field>
+    <field name="arch" type="xml">
+      <tree string="Stages">
+        <field name="m_sequence" widget="handle"/>
+        <field name="m_stageName"/>
+        <field name="m_asResolved"/>
+      </tree>
+    </field>
+  </record>
+
+  <!-- FORM VIEW -->
+  <record id="ticket_management_stage_form" model="ir.ui.view">
+    <field name="name">ticket_management.stage.form</field>
+    <field name="model">ticket_management.stage</field>
+    <field name="priority" eval="1" />
+    <field name="arch" type="xml">
+        <form string="Stage">
+          <sheet>
+            <h1><field name="m_stageName" required="1" placeholder="Stage name" style="max-width: 500px; margin:20px;"/></h1>            
+            <h5>When a ticket is dropped here, it is marked as resolved : </h5> <field name="m_asResolved" required="1" widget="checkbox"/>            
+          </sheet>
+        </form>
+    </field>
+  </record>
+
+  <!-- 2. Actions -->
+  <record model="ir.actions.act_window" id="ticket_management_stage_action">
+    <field name="name">Stages</field>
+    <field name="res_model">ticket_management.stage</field>
+    <field name="view_type">form</field>
+    <field name="view_id" ref="ticket_management.ticket_management_stage_tree"/>
+    <field name="help" type="html">
+      <p class="o_view_nocontent_smiling_face">Set a new status for your tickets</p>
+      <p>Status allow us to easily track how a specific ticket
+          is positioned in the resolution cycle.</p>
+    </field>
+  </record>
+
+  <!-- 3. Menu items -->
+  <menuitem 
+    id="menu_ticket_management_stage_act" 
+    name="Status" 
+    sequence="25"
+    action="ticket_management_stage_action"
+    parent="ticket_management_menu_root"/>
+</odoo>

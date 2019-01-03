@@ -1,0 +1,19 @@
+<odoo noupdate="1">
+    <data>
+    <record model="ticket_management.stage" id="stage_lead1">
+        <field name="m_stageName">New</field>
+        <field name="m_asResolved">0</field>
+        <field name="m_sequence">1</field>
+    </record>
+    <record model="ticket_management.stage" id="stage_lead2">
+        <field name="m_stageName">In progress</field>
+        <field name="m_asResolved">0</field>
+        <field name="m_sequence">2</field>
+    </record>
+    <record model="ticket_management.stage" id="stage_lead3">
+        <field name="m_stageName">Resolved</field>
+        <field name="m_asResolved">1</field>
+        <field name="m_sequence">70</field>
+    </record>
+</data>
+</odoo>

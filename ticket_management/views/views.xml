@@ -1,0 +1,159 @@
+<odoo>
+
+    <!--link href="/ticket_management/static/src/css/ticket_management.css" rel="stylesheet" type="text/css"/-->
+
+    <!-- 1. Views -->
+
+    <!--TREE VIEW -->
+    <record id="view_ticket_management_tree" model="ir.ui.view">
+      <field name="name">ticket_management.ticket_management.tree</field>
+      <field name="model">ticket_management.ticket_management</field>
+      <field name="type">tree</field>
+      <field name="priority" eval="8"/>
+      <field name="arch" type="xml">
+        <tree string="Ticket">
+          <field name="id"/>
+          <field name="m_title"/>
+          <field name="m_type"/>
+          <field name="m_contact"/>
+          <field name="m_status"/>
+        </tree>
+      </field>
+    </record>
+
+    <!-- FORM VIEW -->
+    <record id="view_ticket_form" model="ir.ui.view">
+      <field name="name">ticket_management.ticket_management.form</field>
+      <field name="model">ticket_management.ticket_management</field>
+      <field name="priority" eval="8"/>
+      <field name="arch" type="xml">
+        <form string="New ticket">
+          <header attrs="{'invisible': [('m_resolved','=', True)]}">
+            <!--The oe_highlight class gives the button a red color when it is saved.
+            It is usually used to indicate the expected behaviour. -->
+            <button string="Marquer résolu" type="object" name="resolved_ticket" class="oe_highlight"/>
+            <button string="Marquer en attente" type="object" name="ticket_waiting" attrs="{'invisible': [('m_status','!=', 'inProgress')]}"/>
+            <field name="m_status" options="{'clickable': '0'}" widget="statusbar" default_value="new"/>
+          </header>
+
+            <sheet>
+              <div class="oe_title" style="float:top;margin-bottom:40px;">
+                <div style="float:left;">
+                  <h1><field name="m_title" required="1" placeholder="Ticket title" style="max-width: 350px; margin:20px;"/></h1> <br/>
+                  <field name="m_type" required="1" widget="radio" options="{'horizontal': true}"/><br/> <br/>
+                  <table>
+                    <tr>
+                      <td>Settings applied</td> <td> : <field name="m_settings" widget="ticket_management_settings_many2one" required="1"/></td>
+                    </tr>
+                  </table>
+                </div>
+                
+                <div style="float:right; border-left: solid 1px; border-color:darkgray; padding-left:10px;">
+                  <h5>Caller information</h5> <br/>
+                  <field name="m_contact" widget="res_partner_many2one" domain="[('customer','=',True)]" context="{'search_default_customer':1}" required="1"/>
+                  <p> 
+                    <table>
+                      <tr>
+                        <td>phone</td> <td> : <field name="m_caller_phone"/> </td> 
+                      </tr>
+                      <tr>
+                        <td>company</td> <td> : <field name="m_caller_company"/> </td>
+                      </tr>
+                    </table>
+                  </p>
+                </div>            
+              </div>
+              
+              <div class="oe_description" style="float:bottom;margin-top:300px;"> 
+                <h4>
+                  <field name="m_ticketDescription" required="1" placeholder="Ticket description" style="min-height:40px;"/>
+                </h4>
+                <field name="m_resolved" attrs="{'invisible':1}"/>
+              </div>
+            </sheet>
+
+            <div class="oe_chatter">
+                <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                <field name="message_ids" widget="mail_thread"/>
+            </div>
+        </form>
+      </field>
+    </record>
+
+    <!-- QUICK CREATE FORM VIEW -->
+    <record id="quick_create_opportunity_form" model="ir.ui.view">
+      <field name="name">ticket_management.ticket_management.form.quick_create</field>
+      <field name="model">ticket_management.ticket_management</field>
+      <field name="priority" eval="1000" />
+      <field name="arch" type="xml">
+        <form>
+          <group>
+            <field name="m_type" required="1" widget="radio" options="{'vertical': true}" style="margin-bottom:20px;"/>
+            <field name="m_title" required="1" placeholder="Title" style="max-width:500px; margin-bottom:20px;"/>
+            <field name="m_contact" widget="res_partner_many2one" domain="[('customer','=',True)]" context="{'search_default_customer':1}" required="1" style="margin-bottom:20px;"/>
+            <field name="m_ticketDescription" required="1" placeholder="Ticket description" style="min-height:80px;margin-bottom:30px;float:bottom;"/>
+            <field name="m_resolved" attrs="{'invisible':1}"/>
+            <field name="m_settings" widget="ticket_management_settings_many2one" attrs="{'invisible':1}"/>
+          </group>
+        </form>
+      </field>
+    </record>
+
+    <!-- KANBAN VIEW -->
+    <record id="view_ticket_management_kanban" model="ir.ui.view">
+        <field name="name">ticket_management.ticket_management.kanban</field>
+        <field name="model">ticket_management.ticket_management</field>
+        <field name="arch" type="xml">
+            <kanban string="Tickets" default_group_by="m_status" on_create="quick_create" quick_create_view="ticket_management.quick_create_opportunity_form" edit="false">
+                <field name="m_status"/>
+                <field name="m_title"/>
+                <field name="m_type"/>
+                <field name="m_contact"/>
+                <templates>
+                  <t t-name="kanban-box">
+                    <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                      <div class="o_kanban_record_top mb16">
+                        <div class="o_kanban_record_headings mt4">
+                            <strong><span><field name="m_title"/></span></strong>
+                        </div>
+                    </div>
+                      <div class="o_kanban_record_bottom">
+                        <div class="oe_kanban_bottom_left text-muted">
+                            <span><t t-esc="record.m_contact.value"/></span>
+                        </div>
+                        <div class="oe_kanban_bottom_right">
+                            <field name="m_type" widget="label_selection" options="{'classes': {'draft': 'default', 'cancel': 'default', 'done': 'success'}}"/>
+                        </div>
+                      </div>
+                    </div>
+                  </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- 2. Actions -->
+    <record model="ir.actions.act_window" id="action_view_all_tickets">
+      <field name="name">Tickets</field>
+      <field name="res_model">ticket_management.ticket_management</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">kanban,tree,form</field>
+      <field name="domain">[]</field>
+      <field name="help" type="html">
+        <p class="oe_view_nocontent_create">Create new ticket</p>
+      </field>
+    </record>
+
+    <!-- 3. Menu items -->
+    <menuitem 
+      id="ticket_management_menu_root" 
+      name="Ticket Management" 
+      sequence="6"/>
+
+    <menuitem
+      id="ticket_management_view"
+      name="View tickets"
+      parent="ticket_management_menu_root"
+      action="action_view_all_tickets"
+      sequence="20"/>
+</odoo>
