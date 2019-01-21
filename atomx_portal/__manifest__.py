@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 {
     'name': "AtomX Portal",
-    'summary': """This module is a custom website module""",
+    'summary': """This module is a plugin for website module""",
     'version': '0.1',
-    'description': """This module is a custom website module. This allows customs forms""",
+    'description': """This module provides new pages and allows custom forms to the website module.""",
     'author': "Sylvein Faraux",
     'company': "AtomX System",
     'website': "http://atomxsystem.eu",
