@@ -1,0 +1,27 @@
+<odoo>
+	<data>
+		<!-- FORM VIEW -->
+	    <record id="view_sale_order_form_inherited" model="ir.ui.view"> 
+	      <field name="name">Sale Order Form Extension</field>
+	      <field name="model">sale.order</field>
+	      <field name="inherit_id" ref="sale.view_order_form"/>
+	      <field name="arch" type="xml">
+	        
+	        <button name="payment_action_capture" position="before">
+	        	<button name="generate_payment_method" string="Générer les modalités de facturation" type="object" class="btn-primary" attrs="{'invisible':['|', ('m_type', '=', False), ('m_payment_method', '!=', False)]}"/>
+	        </button>
+
+	        <field name="payment_term_id" position="before">
+	        	<field name="m_type"/>
+	        </field>
+
+	        <notebook position="before">
+	        	<group colspan="2">
+	        		<field name="m_payment_method"/>
+	        	</group>
+	        </notebook>
+
+      		</field>
+    	</record>
+	</data>
+</odoo>

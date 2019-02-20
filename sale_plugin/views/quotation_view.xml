@@ -1,0 +1,10 @@
+<odoo>
+	<data>
+		<!-- Inherit quotation report (from module sale) -->
+		<template id="quotation_report_atomx" name="Quotation Atomx Extension" inherit_id="sale.report_saleorder_document">
+			<p id="fiscal_position_remark" position="before">
+				<t t-raw="doc.m_payment_method"/>
+			</p>
+		</template>
+	</data>
+</odoo>
