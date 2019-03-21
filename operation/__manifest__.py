@@ -14,7 +14,7 @@
     # Check https://github.com/odoo/odoo/blob/master/odoo/addons/base/module/module_data.xml
     # for the full list
     'category': 'Tools',
-    'version': '1.2',
+    'version': '1.2.1',
 
     # any module necessary for this one to work correctly
     'depends': ['base', 'contacts', 'hr', 'contact_plugin'],
@@ -25,6 +25,7 @@
         'views/general_template.xml',
         'views/templates.xml',
         'data/baldnessCases.xml',
+        'data/aliases.xml',
     ],
     'demo': [],
     'installable': True,

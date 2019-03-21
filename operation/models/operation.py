@@ -33,6 +33,9 @@ class Operation(models.Model):
 	_rec_name = 'm_name'
 	_inherit = ['mail.thread']
 
+	alias_prefix = fields.Char('Default Alias Name')
+	alias_domain = fields.Char('Alias Domain', default=lambda self: self.env["ir.config_parameter"].get_param("mail.catchall.domain"))
+	
 	m_name = fields.Char(compute='_compute_name', string="Nom de l'opération", store=True)
 	m_patient_full_name = fields.Char(string="Nom avec la civilité 'M.' ou 'Mme.'")
 	
