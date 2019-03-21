@@ -136,6 +136,12 @@
                             </group>
                             
                         </group>
+                        <group name="mailgroup" string="Gestion des mails">
+                          <group name="mailgroup_left">
+                            <field name="alias_prefix"/>
+                            <field name="alias_domain"/>
+                          </group>
+                        </group>
                     </sheet>
                     <div class="oe_chatter">
                         <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
