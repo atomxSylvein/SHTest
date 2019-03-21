@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api, SUPERUSER_ID
+from odoo.tools import email_split
 
 class Operation(models.Model):
 
@@ -33,6 +34,9 @@ class Operation(models.Model):
 	_rec_name = 'm_name'
 	_inherit = ['mail.thread']
 
+	alias_prefix = fields.Char('Default Alias Name')
+	alias_domain = fields.Char('Alias Domain', default=lambda self: self.env["ir.config_parameter"].get_param("mail.catchall.domain"))
+	
 	m_name = fields.Char(compute='_compute_name', string="Nom de l'opération", store=True)
 	m_patient_full_name = fields.Char(string="Nom avec la civilité 'M.' ou 'Mme.'")
 	
@@ -187,3 +191,15 @@ class Operation(models.Model):
 				last_id = int(last_operation.id) if last_operation else 0
 				operation.m_name = "Devis " + str(last_id) + " - " + operation.m_patient_name
 				operation.m_patient_full_name = ' '.join(['M.', operation.m_patient_name]) if operation.m_patient.m_gender == 'man' else ' '.join(['Mme.', operation.m_patient_name])
+
+	@api.model
+	def message_new(self, msg_dict, custom_values=None):
+		if custom_values is None:
+			custom_values = {}
+		email_address = email_split(msg_dict.get('email_from', False))[0]
+		user = self.env['res.users'].search(['|', ('email', 'ilike', email_address)], limit=1)
+		msg_subject = msg_dict.get('subject', '')
+		msg_body = msg_dict.get('body', '')
+		custom_values.update({'name': msg_subject.strip(), 'user_id': user.id,})
+
+		return super(HrLeaveAlias, self).message_new(msg_dict, custom_values)
